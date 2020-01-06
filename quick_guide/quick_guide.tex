@@ -1,0 +1,260 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% writeLaTeX Example: A quick guide to LaTeX
+%
+% Source: Dave Richeson (divisbyzero.com), Dickinson College
+% 
+% A one-size-fits-all LaTeX cheat sheet. Kept to two pages, so it 
+% can be printed (double-sided) on one piece of paper
+% 
+% Feel free to distribute this example, but please keep the referral
+% to divisbyzero.com
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% How to use writeLaTeX: 
+%
+% You edit the source code here on the left, and the preview on the
+% right shows you the result within a few seconds.
+%
+% Bookmark this page and share the URL with your co-authors. They can
+% edit at the same time!
+%
+% You can upload figures, bibliographies, custom classes and
+% styles using the files menu.
+%
+% If you're new to LaTeX, the wikibook is a great place to start:
+% http://en.wikibooks.org/wiki/LaTeX
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[10pt,landscape]{article}
+\usepackage{amssymb,amsmath,amsthm,amsfonts}
+\usepackage{multicol,multirow}
+\usepackage{calc}
+\usepackage{ifthen}
+\usepackage[landscape]{geometry}
+\usepackage[colorlinks=true,citecolor=blue,linkcolor=blue]{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily,
+  showstringspaces=false,
+  commentstyle=\color{red},
+  keywordstyle=\color{blue}
+}
+
+\ifthenelse{\lengthtest { \paperwidth = 11in}}
+    { \geometry{top=.5in,left=.5in,right=.5in,bottom=.5in} }
+ {\ifthenelse{ \lengthtest{ \paperwidth = 297mm}}
+  {\geometry{top=1cm,left=1cm,right=1cm,bottom=1cm} }
+  {\geometry{top=1cm,left=1cm,right=1cm,bottom=1cm} }
+ }
+\pagestyle{empty}
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%x
+                                {\normalfont\large\bfseries}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{0mm}%
+                                {-1explus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%
+                                {\normalfont\normalsize\bfseries}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {1ex plus .2ex}%
+                                {\normalfont\small\bfseries}}
+\makeatother
+\setcounter{secnumdepth}{0}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt plus 0.5ex}
+% -----------------------------------------------------------------------
+
+\title{Quick Guide to \texttt{kworkflow}}
+
+\begin{document}
+
+\raggedright
+\footnotesize
+
+\begin{center}
+     \Large{\textbf{A quick guide to \texttt{kworkflow}}} \\
+\end{center}
+\begin{multicols}{3}
+\setlength{\premulticols}{1pt}
+\setlength{\postmulticols}{1pt}
+\setlength{\multicolsep}{1pt}
+\setlength{\columnsep}{2pt}
+
+\section{What is \texttt{kw}?}
+This set of scripts have a simple mission: reduces the environment and setup overhead for developing for GNU/Linux. Kw is composed of different scripts unified in a single interface after the installation, kw commands become available in the command line interface.
+
+\section{Install and Uninstall}
+
+Package Dependencies: \\
+\texttt{apt install libguestfs-tools qemu qemu-kvm python-docutils rsync}
+
+For installing, you just need to run: \texttt{./setup -i}. Below you can see all the available options:
+
+\begin{tabular}{ll}
+\emph{Option} & \emph{Description} \\
+\texttt{--help,-h} & Display this usage message \\
+\texttt{--install,-i} & Install kw \\
+\texttt{--uninstall,-u} & Uninstall kw \\
+\texttt{--completely-remove} & Completely remove everything \\
+\texttt{--html} & Build kw's documentation as HTML \\
+\end{tabular}
+
+\section{Find help}
+
+If you need help, you have many options. Via the command line, you can use:
+
+\texttt{kw help} \\
+\texttt{kw man}
+
+Online: \\
+\url{https://siqueira.tech/doc/kw/} \\
+\url{https://github.com/kworkflow/kworkflow}
+
+\section{Check codestyle}
+\texttt{codestyle,c}: Apply checkpatch on directory, file, or patch.
+
+Example:
+\begin{lstlisting}[language=bash]
+cd drivers/gpu/drm/amd/display/
+kw c amdgpu_dm/amdgpu_dm_irq.h
+\end{lstlisting}
+ 
+\section{Find maintainers}
+\begin{description}
+\item [\texttt{maintainers,m}]: This command shows the maintainers of a given Kernel module.
+\end{description}
+
+Options:
+
+\begin{description}
+    \item [\texttt{--authors,-a}]: Return the maintainers and the mailing list. "-a" also prints files authors
+\end{description}
+
+Example:
+\begin{lstlisting}[language=bash]
+kw m drivers/gpu/drm/vkms/
+kw m -a drivers/gpu/drm/vkms/
+\end{lstlisting}
+
+\section{Find string match}
+
+\begin{description}
+\item [\texttt{explore,e}]: The explore command is based on git grep. It can search for string matches in either the git repository contents or in the git log messages.
+\end{description}
+
+Options:
+
+\begin{description}
+    \item [\texttt{STRING [PATH]}]:
+        Search for STRING based in PATH (./ by default) 
+    \item [\texttt{"STR SRT" [PATH]}]:
+        Search for strings
+    \item [\texttt{--log STRING}]:
+        Search for STRING on git log
+\end{description}
+
+Example:
+\begin{lstlisting}[language=bash]
+kw e "Atomic check stopped"
+kw e "Atomic check stopped" drivers/gpu/drm/
+kw e dm_crtc_get_scanoutpos drivers/gpu/drm/
+kw e --log "-EINVAL if something gets wrong"
+\end{lstlisting}
+
+\section{Manage \texttt{.config} file}
+
+\begin{description}
+    \item [\texttt{configm,g}]: The ‘configm’ command manages different versions of the project’s ‘.config’ file. It provides the save, load, remove, and list operations of such files.
+\end{description}
+
+Options:
+
+\begin{description}
+\item [\texttt{--save NAME [-d 'DESCRIPTION']}]: Searches the current directory for a \texttt{.config} file to be kept under the management of kw
+\item [\texttt{--ls}]: List config files under kw management
+\item [\texttt{--get NAME}]: Get a config file based named *NAME*
+\item [\texttt{--rm}]: Remove config labeled with *NAME*
+\end{description}
+
+Example:
+\begin{lstlisting}[language=bash]
+cd KERNEL_PATH
+kw g --save my_current_config
+kw g --ls
+kw g --get my_current_config
+\end{lstlisting}
+
+\section{Build}
+\texttt{kw b} or \texttt{kw build}\\
+
+\section{Deploy new Kernel/module}
+\begin{description}
+\item [\texttt{deploy,d}]: If you are in a kernel directory, this command will try to install the current kernel version in your target machine (remote, host, and VM).
+\end{description}
+
+Options:
+
+\begin{description}
+    \item [\texttt{--remote [REMOTE:PORT]}]: Specify the deploy to a remote machine.
+    \item [\texttt{--local}]: Deploy in the host machine.
+    \item [\texttt{--vm}]: Deploy in the QEMU vm.
+    \item [\texttt{--reboot}]: Reboot machine after deploy.
+    \item [\texttt{--modules}]: Only deploy modules.
+\end{description}
+
+\section{SSH}
+
+\begin{description}
+    \item [\texttt{ssh,s}]:
+\end{description}
+
+Options:
+
+\begin{description}
+    \item [\texttt{--script,-s [SCRIPT PATH]}]: Expects a bash script as a parameter to evaluate in a target machine.
+    \item [\texttt{--command,-c=[COMMAND]}]: Expects a command to be executed in a target machine.
+\end{description}
+
+Example:
+\begin{lstlisting}[language=bash]
+kw s
+kw s -c="dmesg -wH"
+\end{lstlisting}
+
+\section{\texttt{kworkflow.config} options}
+
+\begin{description}
+    \item [\texttt{ssh\_ip}]:
+    Default ssh ip
+    \item [\texttt{ssh\_port}]:
+    Default ssh port
+    \item [\texttt{arch}]:
+    Specify the default architecture used by KW
+    \item [\texttt{virtualizer}]:
+    Defines the virtualization tool that should be used by kw. Current, we only support QEMU
+    \item [\texttt{mount\_point}]:
+    Defines the kw mount point, this directory is used by libguestfs during the mount/umount operation of a VM
+    \item [\texttt{qemu\_hw\_options}]:
+    Sets basic QEMU options
+    \item [\texttt{qemu\_net\_options}]:
+    Defines the network configuration
+    \item [\texttt{qemu\_path\_image}]:
+    Specify the VM image path
+    \item [\texttt{alert}]:
+    Default alert options (You should use vs, s, v or n. See README.md for details on this options)
+    \item [\texttt{sound\_alert\_command}]:
+    Command to run for sound completion alert (This command will be executed in the background)
+    \item [\texttt{visual\_alert\_command}]:
+    Command to run for visual completion alert (This command will be executed in the background)
+    \item [\texttt{default\_deploy\_target}]:
+    Sometimes it could be bothersome to pass the same parameter for kw deploy; here, you can set the default target. We define `vm` as the default, but you can also use `local` and `remote REMOTE:PORT`.
+    \item [\texttt{reboot\_remote\_by\_default}]:
+\end{description}
+
+\end{multicols}
+
+\end{document}
+

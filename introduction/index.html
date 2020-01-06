@@ -1,0 +1,252 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>
+      kw
+    </title>
+
+    <link rel="shortcut icon" type="images/kw.ico" href="favicon.ico" />
+<link rel="icon" href="images/favicon.ico" type="image/x-icon"> 
+
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/white.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/monokai.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- Slide -->
+        <section>
+          <img width="800" height="327" src="images/kw_logo2.png" style="background:none; border:none; box-shadow:none;">
+          <br>
+          <img width="120" height="41" src="images/by.png" style="background:none; border:none; box-shadow:none;">
+        </section>
+
+        <!-- Slide -->
+        <section>
+
+          <section>
+            <h2>What is kw?</h2>
+            <blockquote>
+              It is a set of scripts that aim to reduces the environment and
+              setup overhead for developing for GNU/Linux.
+            </blockquote>
+          </section>
+
+          <section>
+            <h2>Why we decided to create kw?</h2>
+            <ul>
+              <li>
+                Everybody that works with Linux Kernel creates their set of
+                scripts, which means that we have a lot of code duplication.
+                <ul>
+                  <li>We want to centralize most of the tedious work in a single tool for creating robust software</li>
+                </ul>
+              </li>
+              <li>
+                Developing for Linux Kernel has a steep learning curve.
+                <ul>
+                  <li>Reduce the learn curve</li>
+                </ul>
+              </li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Kw authors</h2>
+            <ul>
+              <li>Rodrigo Siqueira (<a href=https://siqueira.tech/>https://siqueira.tech/</a>)</li>
+              <li>Matheus Tavares (<a href="https://matheustavares.gitlab.io/">https://matheustavares.gitlab.io/</a>)</li>
+            </ul>
+          </section>
+
+        </section>
+
+        <!-- Slide -->
+        <section>
+          <section>
+            <h2>How to install</h2>
+          </section>
+
+          <section>
+            <h2>Package requirements</h2>
+            <pre><code class="hljs bash">apt install libguestfs-tools qemu qemu-kvm python-docutils rsync</code></pre>
+
+            <h2>Clone Kworkflow</h2>
+            <pre><code class="hljs bash">git clone https://github.com/kworkflow/kworkflow.git</code></pre>
+
+          </section>
+
+          <section>
+            <h2>Install kw</h2>
+            <pre><code class="hljs bash">./setup --install # or ./setup -i</code></pre>
+            <p>After installation take a look at:</p>
+            <pre><code class="hljs bash">ls ~/.config/kw/
+configs  documentation  etc  kw  sounds  src</code></pre>
+          </section>
+
+          <section>
+            <h2>Update kw</h2>
+            <pre><code class="hljs bash">cd kworkflow
+git pull
+./setup -i</code></pre>
+          </section>
+
+          <section>
+            <h2>Uninstall kw</h2>
+            <pre><code class="hljs bash">cd kworkflow
+./setup --uninstall # ./setup -u</code></pre>
+          </section>
+
+        </section>
+
+        <!-- Slide -->
+        <section>
+          <h2>Getting help</h2>
+          <pre><code class="hljs bash">kw help
+kw man</code></pre>
+          <p>Online</p>
+          <ul>
+            <li><a href=https://siqueira.tech/doc/kw/>https://siqueira.tech/doc/kw/</a></li>
+            <li><a href=https://github.com/kworkflow/kworkflow/issues>https://github.com/kworkflow/kworkflow/issues</a></li>
+          </ul>
+        </section>
+
+        <!-- Slide -->
+        <section>
+          <h2>How do you check codestyle?</h2>
+          <p>Using checkpatch:</p>
+          <pre><code class="hljs bash">perl scripts/checkpatch.pl --terse --no-tree \
+    --color=always -strict --file \
+    drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.h</code></pre>
+          <p>kw way:</p>
+          <pre><code class="hljs bash">kw codestyle \
+    drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.h</code></pre>
+          <p>or just:</p>
+          <pre><code class="hljs bash">kw c drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.h</code></pre>
+
+        </section>
+
+        <!-- Slide -->
+        <section>
+          <h2>How do you find maintainers?</h2>
+          <p>Using get_maintainer.pl:</p>
+          <pre><code class="hljs bash">perl scripts/get_maintainer.pl --separator , --nokeywords \
+          --nogit --nogit-fallback --norolestats \
+          drivers/gpu/drm/vkms/</code></pre>
+          <p>kw way:</p>
+          <pre><code class="hljs bash">kw maintainers drivers/gpu/drm/vkms</code></pre>
+          <p>or just:</p>
+          <pre><code class="hljs bash">kw m drivers/gpu/drm/vkms</code></pre>
+        </section>
+        <!-- Slide -->
+        <section>
+          <section>
+            <h2>How do you match a string using kw?</h2>
+            <p>Native option 1:</p>
+            <pre><code class="hljs bash">grep -nrwI drivers/gpu/drm/ -e "Atomic check stopped"</code></pre>
+            <p>Native option 2:</p>
+            <pre><code class="hljs bash">git grep -e "Atomic check stopped" -nI drivers/gpu/drm/</code></pre>
+            <p>kw way:</p>
+            <pre><code class="hljs bash">kw explore "Atomic check stopped"</code></pre>
+            <pre><code class="hljs bash">kw e "Atomic check stopped"</code></pre>
+            <pre><code class="hljs bash">kw e "Atomic check stopped" drivers/gpu/drm/</code></pre>
+          </section>
+          <section>
+            <h2>Search in the git log</h2>
+            <p>kw way:</p>
+            <pre><code class="hljs bash">kw e --log "-EINVAL if something gets wrong"</code></pre>
+          </section>
+        </section>
+
+        <!-- Slide -->
+        <section>
+          <section>
+            <h2>How to manage your <code class="highlighter-rouge">.config</code> with kw?</h2>
+            <p>Save <code class="highlighter-rouge">.config</code> file:</p>
+            <pre><code class="hljs bash">cd kernel_path
+ls -l .config 
+kw configm --save KWDEMO # or kw g --save KWDEMO
+kw g --save KWDEMO -d "Demo presentation"</code></pre>
+          </section>
+          <section>
+            <p>List all <code class="highlighter-rouge">.config</code> under kw track:</p>
+            <pre><code class="hljs bash">kw g --ls
+Name                           | Description
+
+KWDEMO                         | Demo presentation</code></pre>
+            <p>Retrieve <code class="highlighter-rouge">.config</code> file:</p>
+            <pre><code class="hljs bash">kw g --get KWDEMO</code></pre>
+          </section>
+        </section>
+
+        <!-- Slide -->
+        <section>
+          <h2>How to build Linux Kernel using kw?</h2>
+          <pre><code class="hljs bash">kw init</code></pre>
+          <pre><code class="hljs bash">kw build # kw b</code></pre>
+        </section>
+
+        <!-- Slide -->
+        <section>
+          <h2>How to deploy a new Linux Kernel using kw?</h2>
+          <pre><code class="hljs bash">kw deploy</code></pre>
+          <p>Deploy a new Kernel into remote machine</p>
+          <pre><code class="hljs bash">kw deploy --remote</code></pre>
+          <p>Deploy a new Kernel in the host machine</p>
+          <pre><code class="hljs bash">kw deploy --local</code></pre>
+          <p>Deploy a new Kernel in the VM machine</p>
+          <pre><code class="hljs bash">kw deploy --vm</code></pre>
+        </section>
+
+        <!-- Slide -->
+        <section>
+          <h2>About ssh operations</h2>
+          <p>SSH in a remote machine</p>
+          <pre><code class="hljs bash">kw ssh # kw s</code></pre>
+          <p>Run a single command in a remote machine:</p>
+          <pre><code class="hljs bash">kw s --command="dmesg -wH" # kw s -c="dmesg -wH"</code></pre>
+          <p>Run a script in remote machine:</p>
+          <pre><code class="hljs bash">kw s --script=target_script # kw s -s=target_script</code></pre>
+        </section>
+
+        <!-- Slide -->
+        <section>
+          <h1>About kw source code</h1>
+        </section>
+
+      </div>
+    </div>
+
+    <script src="js/reveal.js"></script>
+
+    <script>
+      // More info about config & dependencies:
+      // - https://github.com/hakimel/reveal.js#configuration
+      // - https://github.com/hakimel/reveal.js#dependencies
+      Reveal.initialize({
+          dependencies: [
+              { src: 'plugin/markdown/marked.js' },
+              { src: 'plugin/markdown/markdown.js' },
+              { src: 'plugin/notes/notes.js', async: true },
+              { src: 'plugin/highlight/highlight.js', async: true }
+          ]
+      });
+    </script>
+  </body>
+</html>

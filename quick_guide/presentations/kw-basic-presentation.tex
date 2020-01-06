@@ -1,0 +1,183 @@
+% Authors: Nelson Lago and Fernanda Magano
+% This file is distributed under the MIT Licence
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PREÂMBULO %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[xcolor={usenames,svgnames,dvipsnames},brazil,english,12pt,aspectratio=149]{beamer}
+
+\usepackage{etoolbox}
+\usepackage{xstring}
+\usepackage{xparse}
+\usepackage{diagbox}
+\usepackage{pifont}
+
+% Vários pacotes e opções de configuração genéricos
+\input{extras/basics}
+% A fonte precisa ser definida depois que o tema metropolis foi carregado
+%\input{extras/fonts}
+\input{extras/floats}
+% index não é necessário, mas deixamos aqui para usar os mesmos
+% passos de compilação que a tese
+\input{extras/index}
+\input{extras/hyperlinks}
+\input{extras/source-code}
+\input{extras/utils}
+
+% Diretórios onde estão as figuras; com isso, não é preciso colocar o caminho
+% completo em \includegraphics (e nem a extensão).
+\graphicspath{{figuras/},{logos/}}
+
+% Comandos rápidos para mudar de língua:
+% \en -> muda para o inglês
+% \br -> muda para o português
+% \texten{blah} -> o texto "blah" é em inglês
+% \textbr{blah} -> o texto "blah" é em português
+\babeltags{br = brazil, en = english}
+
+% Espaçamento simples
+\singlespacing
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% APARÊNCIA DO BEAMER %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{appendixnumberbeamer}
+
+% Tema metropolis com algumas modificações
+\dowithsubdir{extras/}{\usetheme{imeusp}}
+
+% O padrão usa um tom de vermelho escuro como cor principal; a opção
+% "greeny" troca essa cor por um tom de verde; a opção "sandy" usa o
+% mesmo tom de verde mas modifica a cor padrão dos blocos para um
+% tom amarelado.
+\dowithsubdir{extras/}{\usecolortheme[abstract2concrete]{siqueira}}
+% Desabilita a cor de rodapé
+\setbeamercolor{footline}{fg=,bg=}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% COMANDOS PARA O USUÁRIO %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand\col{\column{.5\textwidth}}
+
+% A cada nova seção, recapitula o sumário
+% Para desabilitar, é só comentar este trecho
+%\AtBeginSection[]{
+%  \begin{frame}<beamer>{Overview}
+%    \intermezzo
+%  \end{frame}
+%}
+
+\AtBeginSection[]{}
+
+% Blocos de cor personalizada
+\newenvironment{coloredblock}[2]%
+{
+    \setbeamercolor{block title}{fg=white,white}
+    \setbeamercolor{block body}{fg=white,white}
+    \setbeamercolor{local structure}{fg=white,bg=white}
+    \begin{block}{#2}
+}{
+    \end{block}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% METADADOS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Referências
+\usepackage[style=bwl-FU]{biblatex}
+\addbibresource{bibliografia.bib}
+% Acrescenta à lista de referências sem precisar incluir uma referência
+% de fato no texto
+\nocite{bronevetsky02,schmidt03:MSc, FSF:GNU-GPL, CORBA:spec, MenaChalco08}
+% Acrescenta tudo do arquivo .bib
+%\nocite{*}
+\title[The shortened title]{Uma Visão Sobre a Próxima Geração de Abstrações de Processos em Sistemas Operacionais}
+%\subtitle{The (optional) subtitle}
+
+\author[Rodrigo Siqueira Jordão]{Rodrigo Siqueira Jordão}
+
+\institute[USP]{\textbf{Orientador: Fabio Kon} \\ Instituto de Matemática e Estatística \\ IME USP}
+%\institute[USP]{\textbf{Orientador:} \\ Computer Science Department \\ IME USP}
+
+%\date{Month and day, year}
+
+% Coloca a imagem no fundo da página de título
+%\bgimage{\includegraphics[width=\paperwidth]{fundo_predios_e_grafo}}
+
+% Logotipos no rodapé da página de título
+\logos{
+  %\hfil\hfil\includegraphics[width=.1\textwidth]{usp-logo}\hfil%
+  %\raisebox{-.0103\paperheight}{\includegraphics[height=.0932\paperheight]{interscity-logo-branco}}\hfil%
+%  \raisebox{-.00517\paperheight}{\includegraphics[height=.057\paperheight]{cnpq-logo}}\hfil%
+  %\raisebox{-.033\paperheight}{\includegraphics[width=.07\textwidth,trim=0 230 0 0,clip]{ime-logo}}\hfil\hfil
+}
+
+%\logos{
+%  \hfil\hfil\includegraphics[width=.1\textwidth]{usp-logo}\hfil%
+%  \raisebox{-.0103\paperheight}{\includegraphics[height=.0932\paperheight]{interscity-logo}}\hfil%
+%  \raisebox{-.00517\paperheight}{\includegraphics[height=.057\paperheight]{cnpq-logo}}\hfil%
+%  \raisebox{-.0342\paperheight}{\includegraphics[height=.1035\paperheight]{capes-logo}}\hfil%
+%  \includegraphics[height=.044\paperheight]{fapesp-logo}\hfil\hfil
+%}
+
+% Usado para criar o qrcode com o endereço da apresentação
+\presentationurl{https://siqueira.tech}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BIBLIOGRAFIA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% O arquivo com os dados bibliográficos; você pode usar este comando
+% mais de uma vez para acrescentar múltiplos arquivos
+\addbibresource{bibliografia.bib}
+
+% Este comando permite acrescentar itens à lista de referências sem incluir
+% uma referência de fato no texto (pode ser usado em qualquer lugar do texto)
+%\nocite{bronevetsky02,schmidt03:MSc, FSF:GNU-GPL, CORBA:spec, MenaChalco08}
+% Com este comando, todos os itens do arquivo .bib são incluídos na lista
+% de referências
+%\nocite{*}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% INÍCIO DO CONTEÚDO %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\definecolor{MyBackground}{rgb}{255, 255, 255}
+\setbeamercolor{background canvas}{bg=MyBackground}
+\def\apresentacao{\relax}
+
+% É complicado colocar uma imagem de fundo, os logos das agências e
+% o conteúdo "normal" do slide de título sem que as coisas fiquem
+% bagunçadas, então definimos um comando para gerar o slide de título
+\customtitlepage
+
+% Slide com o qrcode
+%\showqrcode
+
+\begin{frame}[plain]
+  \includegraphics[width=\textwidth]{airplane}
+\end{frame}
+
+%------------------------------------------------------------------------------
+% FUNDAMENTAÇÃO TEÓRICA
+%------------------------------------------------------------------------------
+\section{Fundamentação teórica}
+
+
+\begin{frame}{Exokernel}
+  \begin{proof}[Ideia central]
+Exokernel busca ser um núcleo mínimo que permita multiplexar de forma segura os
+recursos de hardware e ao mesmo tempo fornecer uma interface de baixo-nível na
+qual as abstrações do SO podem ser construída sobre ela.
+  \end{proof}
+
+  \begin{itemize}
+    \item Expor o hardware de forma segura
+    \item Expor alocações
+    \item Expor nomes
+    \item Expor revogações
+  \end{itemize}
+
+\end{frame}
+
+
+\end{document}

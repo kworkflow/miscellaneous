@@ -31,3 +31,6 @@ tese-exemplo.pdf
 apresentacao-exemplo.pdf
 poster-exemplo.pdf
 artigo-exemplo.pdf
+
+# Ignore Sphinx build
+build/

@@ -13,8 +13,8 @@ this, take a look at the following links:
 
 # How to build kw presentations
 
-You need Sphinx installed and pip installed in your system; for example, if you
-are using Debian based system, just use:
+You need Sphinx and pip installed in your system; for example, if you are using
+Debian based system, just use:
 
 ```
 apt install python3-docutils sphinx-doc python3-pip
@@ -56,3 +56,17 @@ extensions = [
     'sphinx_revealjs',
 ]
 ```
+
+# Others
+
+If you want to create gif, we recommed: peek.
+
+If you want to compress your gifs from terminal screen shot, use:
+
+```
+gifsicle -i full-kw-install.gif -O3 --colors 256 --lossy=170 -o full-kw-install-reduced.gif
+```
+
+The following website is really good for edit gif:
+
+ https://ezgif.com/crop
